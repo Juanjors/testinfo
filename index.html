@@ -75,32 +75,13 @@
                 height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
             };
 
-
-            // Obtener la geolocalización si el usuario da permiso
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    const location = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude
-                    };
-
-                    fetch('/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ screenSize, location }),
-                    });
-                });
-            } else {
-                fetch('/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ screenSize }),
-                }
-        });
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ screenSize }),
+            }
     </script>
 
 </body>
