@@ -1,31 +1,18 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express')
+const path = require('path')
 
-const server = http.createServer((req, res) => {
+const PORT = process.env.PORT || 5001
 
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    req.userIp = ip;
-    console.log('LA IP DEL USUARIO ES: ', ip)
-
-    // Leer el contenido del archivo HTML
-    fs.readFile('./index.html', 'utf8', (err, data) => {
-        if (err) {
-            // Manejar errores de lectura del archivo
-            console.error(err);
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end('Error interno del servidor');
-        } else {
-            // Configurar encabezados de respuesta
-            res.writeHead(200, { 'Content-Type': 'text/html' });
+express()
+    .use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+        req.userIp = ip;
+        console.log('LA IP DEL USUARIO ES: ', ip)
+        res.render('pages/index')
+    })
+    .listen(PORT, () => console.log(`Listening on ${PORT}`))
 
 
-            // Enviar el contenido del archivo HTML como respuesta
-            res.end(data);
-        }
-    });
-});
-
-const PORT = 80;
-server.listen(PORT, () => {
-    console.log(`Servidor en ejecución en http://localhost:${PORT}/`);
-});
