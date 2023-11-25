@@ -8,7 +8,7 @@ const server = http.createServer((req, res) => {
     console.log('LA IP DEL USUARIO ES: ', ip)
 
     // Leer el contenido del archivo HTML
-    fs.readFile('index.html', 'utf8', (err, data) => {
+    fs.readFile('./index.html', 'utf8', (err, data) => {
         if (err) {
             // Manejar errores de lectura del archivo
             console.error(err);
